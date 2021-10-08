@@ -1,2 +1,6 @@
 
 *.json
+showmemymoney-api/package-lock.json
+showmemymoney-api/node_modules/
+showmemymoney-front/package-lock.json
+showmemymoney-front/package-lock.json

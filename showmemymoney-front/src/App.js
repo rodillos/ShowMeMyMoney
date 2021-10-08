@@ -1,6 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
 import React, { Component } from 'react';
+import Dashboard from './dashboard/dashboard';
+import MyInvestments from './investments/myInvestments';
+import OtherInvestments from './investments/otherInvestments';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import StockDetail from './stocksDetail/stockDetail';
+import {Col, Row} from 'react-bootstrap';
 
 class App extends Component{
 
@@ -23,18 +28,18 @@ class App extends Component{
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <Row>
+            <Col xl={4}>
+              <MyInvestments/>
+              <OtherInvestments />
+            </Col>
+            <Col xl={6}>
+              <Dashboard/>
+              {/* TODO: IMPLEMENTAR UNA FUNCION PARA QUE AL SELECCIONAR UNA ACCION
+              CAMBIE EL DASHBOARD Y PASE A SER EL STOCK DETAIL DE LA STOCK CORRESPONDIENTE */}
+              {/* <StockDetail/> */}
+            </Col>
+          </Row>
         </header>
         <p className='App-intro'>{this.state.apiResponse}</p>
       </div>

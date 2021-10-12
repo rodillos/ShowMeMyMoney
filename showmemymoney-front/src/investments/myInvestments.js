@@ -6,19 +6,52 @@ class MyInvestments extends Component{
 
   constructor(props){
     super(props);
-    this.state = { apiResponse: "" }
+    this.state = { savings: '',
+    stocks: [],
+    }
   }
-  
-  callAPI() {
-    fetch("http://localhost:9000/testAPI")
-        .then(res => res.text())
-        .then(res => this.setState({ apiResponse: res }));
+
+  getUserData() {
+    fetch("http://localhost:9000/user",
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      }).then(response => response.json())
+      .then(response => {
+          this.setState({
+            savings: response.savings,
+            stocks: this.createStockList(response.stocks)
+        });
+    })
   }
-  
+
+  createStockList(stockJson){
+      return stockJson.map(
+          stock => {
+            return <ListGroup.Item key={stock.stock.name}>
+            <Container>
+                <Row>
+                    <Col>
+                        <p>{stock.stock.name}</p>
+                    </Col>
+                    <Col>
+                        <p>({stock.quantity} unidades)</p>
+                    </Col>
+                </Row>
+            </Container>
+            <Container>
+            </Container>
+        </ListGroup.Item>
+        }
+      )
+  }
+
   componentWillMount() {
-    this.callAPI();
+    this.getUserData();
   }
-  
+
   render() {
     return (
       <div className="App">
@@ -33,40 +66,14 @@ class MyInvestments extends Component{
                                     <p>Caja Ahorro</p>
                                 </Col>
                                 <Col>
-                                    <p>CajaAhorro.value</p>
+                                    <p>(AR$ {this.state.savings})</p>
                                 </Col>
                             </Row>
                         </Container>
                         <Container>
                         </Container>
                     </ListGroup.Item>
-                    <ListGroup.Item>
-                        <Container>
-                            <Row>
-                                <Col>
-                                    <p>Caja Ahorro</p>
-                                </Col>
-                                <Col>
-                                    <p>CajaAhorro.value</p>
-                                </Col>
-                            </Row>
-                        </Container>
-                        <Container>
-                        </Container>
-                    </ListGroup.Item>                    <ListGroup.Item>
-                        <Container>
-                            <Row>
-                                <Col>
-                                    <p>Caja Ahorro</p>
-                                </Col>
-                                <Col>
-                                    <p>CajaAhorro.value</p>
-                                </Col>
-                            </Row>
-                        </Container>
-                        <Container>
-                        </Container>
-                    </ListGroup.Item>
+                    {this.state.stocks}
                 </ListGroup>
             </Card.Body>
         </Card>

@@ -4,25 +4,19 @@ import Dashboard from './dashboard/dashboard';
 import MyInvestments from './investments/myInvestments';
 import OtherInvestments from './investments/otherInvestments';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import StockDetail from './stocksDetail/stockDetail';
+// import StockDetail from './stocksDetail/stockDetail';
 import {Col, Row} from 'react-bootstrap';
 
 class App extends Component{
 
   constructor(props){
     super(props);
-    this.state = { apiResponse: "" }
+    // this.state = { stocks: null }
   }
-  
-  callAPI() {
-    fetch("http://localhost:9000/testAPI")
-        .then(res => res.text())
-        .then(res => this.setState({ apiResponse: res }));
-  }
-  
-  componentWillMount() {
-    this.callAPI();
-  }
+  // componentWillMount() {
+  //   this.setState({
+  //   })
+  // }
   
   render() {
     return (
@@ -30,7 +24,7 @@ class App extends Component{
         <header className="App-header">
           <Row>
             <Col xl={4}>
-              <MyInvestments/>
+              <MyInvestments />
               <OtherInvestments />
             </Col>
             <Col xl={6}>
@@ -41,7 +35,6 @@ class App extends Component{
             </Col>
           </Row>
         </header>
-        <p className='App-intro'>{this.state.apiResponse}</p>
       </div>
     );
   }

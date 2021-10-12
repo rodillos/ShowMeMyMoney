@@ -6,19 +6,47 @@ class OtherInvestments extends Component{
 
   constructor(props){
     super(props);
-    this.state = { apiResponse: "" }
+    this.state = { stocks: [] }
   }
   
-  callAPI() {
-    fetch("http://localhost:9000/testAPI")
-        .then(res => res.text())
-        .then(res => this.setState({ apiResponse: res }));
+  getStockList() {
+    fetch("http://localhost:9000/stocks",
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      }).then(response => response.json())
+      .then(response => {
+          this.setState({
+            stocks: response
+        });
+    })
   }
-  
+
+  createStockList(stockJson){
+    return stockJson.map(
+        (stock)=>{
+            return <ListGroup.Item key={stock.name}>
+                <Container>
+                    <Row>
+                        <Col>
+                            <p>{stock.name}</p>
+                        </Col>
+                        <Col>
+                            <p>(AR$ {stock.price} / unidad)</p>
+                        </Col>
+                    </Row>
+                </Container>
+            </ListGroup.Item>
+        }
+    )
+}
+
   componentWillMount() {
-    this.callAPI();
+    this.getStockList();
   }
-  
+
   render() {
     return (
       <div className="App">
@@ -26,47 +54,22 @@ class OtherInvestments extends Component{
             <Card.Header className='CardHeader'>Otras Inversiones</Card.Header>
             <Card.Body>
                 <ListGroup variant="flush">
-                    <ListGroup.Item>
-                        <Container>
-                            <Row>
-                                <Col>
-                                    <p>Caja Ahorro</p>
-                                </Col>
-                                <Col>
-                                    <p>CajaAhorro.value</p>
-                                </Col>
-                            </Row>
-                        </Container>
-                        <Container>
-                        </Container>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                        <Container>
-                            <Row>
-                                <Col>
-                                    <p>Caja Ahorro</p>
-                                </Col>
-                                <Col>
-                                    <p>CajaAhorro.value</p>
-                                </Col>
-                            </Row>
-                        </Container>
-                        <Container>
-                        </Container>
-                    </ListGroup.Item>                    <ListGroup.Item>
-                        <Container>
-                            <Row>
-                                <Col>
-                                    <p>Caja Ahorro</p>
-                                </Col>
-                                <Col>
-                                    <p>CajaAhorro.value</p>
-                                </Col>
-                            </Row>
-                        </Container>
-                        <Container>
-                        </Container>
-                    </ListGroup.Item>
+                    {this.state.stocks.map(
+                        (stock)=>{
+                            return <ListGroup.Item key={stock.name}>
+                                <Container>
+                                    <Row>
+                                        <Col>
+                                            <p>{stock.name}</p>
+                                        </Col>
+                                        <Col>
+                                            <p>(AR$ {stock.price} / unidad)</p>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </ListGroup.Item>
+                        }
+                    )}
                 </ListGroup>
             </Card.Body>
         </Card>

@@ -31,8 +31,8 @@ class StockDetail extends Component{
         <h2>{this.name}</h2>
             <Col>
                 <StockDetailCard value ={this.value} quantity={this.Quantity}/>
-                <BuySellStock sellMode={false}/>
-                <BuySellStock sellMode={true}/>       
+                <BuySellStock sellMode={false} stockName={this.name} price={this.value}/>
+                <BuySellStock sellMode={true} stockName={this.name} price={this.value}/>       
             </Col>
       </div>
     );

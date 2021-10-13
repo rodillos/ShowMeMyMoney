@@ -22,7 +22,6 @@ class StockDetailCard extends Component{
     const value = this.props.value;
     const quantity = this.props.quantity;
     const currentValue = value * quantity;
-      debugger;
     return (
       <div className="App">
         <Card>

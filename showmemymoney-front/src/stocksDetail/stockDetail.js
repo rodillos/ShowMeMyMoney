@@ -10,22 +10,27 @@ class StockDetail extends Component{
     this.state = { apiResponse: "" }
   }
   
-  callAPI() {
-    fetch("http://localhost:9000/testAPI")
-        .then(res => res.text())
-        .then(res => this.setState({ apiResponse: res }));
-  }
+  name = this.props.stockName;
+  value = this.props.stockValue;
+  Quantity = this.props.stockQuantity;
   
-  componentWillMount() {
-    this.callAPI();
-  }
+
+  // callAPI() {
+  //   fetch("http://localhost:9000/testAPI")
+  //       .then(res => res.text())
+  //       .then(res => this.setState({ apiResponse: res }));
+  // }
+  
+  // componentWillMount() {
+  //   this.callAPI();
+  // }
   
   render() {
     return (
       <div className="App">
-        <h2>StockSelected.name</h2>
+        <h2>{this.name}</h2>
             <Col>
-                <StockDetailCard />
+                <StockDetailCard value ={this.value} quantity={this.Quantity}/>
                 <BuySellStock sellMode={false}/>
                 <BuySellStock sellMode={true}/>       
             </Col>

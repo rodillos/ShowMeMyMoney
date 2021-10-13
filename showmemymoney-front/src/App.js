@@ -1,43 +1,48 @@
 import './App.css';
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import Dashboard from './dashboard/dashboard';
 import MyInvestments from './investments/myInvestments';
 import OtherInvestments from './investments/otherInvestments';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import StockDetail from './stocksDetail/stockDetail';
 import {Col, Row} from 'react-bootstrap';
+import StockDetail from './stocksDetail/stockDetail';
 
-class App extends Component{
+function App(props){
 
-  constructor(props){
-    super(props);
-    // this.state = { stocks: null }
-  }
-  // componentWillMount() {
-  //   this.setState({
-  //   })
-  // }
-  
-  render() {
+    const [showDashboard, setShowDashboard] = useState(true);
+    const [stockName, setStockName] = useState('');
+    const [stockValue, setStockValue] = useState(0);
+    const [stockQuantity, setStockQuantity] = useState(0);
+
     return (
       <div className="App">
         <header className="App-header">
           <Row>
             <Col xl={4}>
-              <MyInvestments />
+              <MyInvestments 
+                setName={stockName => setStockName(stockName)}
+                setValue={stockValue => setStockValue(stockValue)}
+                setQuantity={stockQuantity => setStockQuantity(stockQuantity)}
+                setDashboard={showDashboard => setShowDashboard(showDashboard)}
+                />
               <OtherInvestments />
             </Col>
             <Col xl={6}>
-              <Dashboard/>
-              {/* TODO: IMPLEMENTAR UNA FUNCION PARA QUE AL SELECCIONAR UNA ACCION
-              CAMBIE EL DASHBOARD Y PASE A SER EL STOCK DETAIL DE LA STOCK CORRESPONDIENTE */}
-              {/* <StockDetail/> */}
+              {showDashboard ?
+                <Dashboard/>
+                :
+                <StockDetail 
+                  stockName={stockName} 
+                  stockValue={stockValue}
+                  stockQuantity={stockQuantity}
+                />
+              }
             </Col>
           </Row>
         </header>
       </div>
     );
-  }
 
 }
 

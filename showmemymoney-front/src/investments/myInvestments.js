@@ -30,11 +30,21 @@ class MyInvestments extends Component{
   createStockList(stockJson){
       return stockJson.map(
           stock => {
-            return <ListGroup.Item key={stock.stock.name}>
+              const stockName = stock.stock.name;
+              const stockValue = stock.stock.price;
+              const stockQuantity = stock.quantity;
+            return <ListGroup.Item key={stock.stock.name} 
+                onClick={() => {
+                    this.props.setName(stockName);
+                    this.props.setValue(stockValue);
+                    this.props.setQuantity(stockQuantity);
+                    this.props.setDashboard(false);
+                    }
+                }>
             <Container>
-                <Row>
+                <Row >
                     <Col>
-                        <p>{stock.stock.name}</p>
+                        <p>{stockName}</p>
                     </Col>
                     <Col>
                         <p>({stock.quantity} unidades)</p>

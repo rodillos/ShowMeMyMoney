@@ -8,45 +8,54 @@ class BuySellStock extends Component{
   constructor(props){
     super(props);
     this.state = { 
-      apiResponse: "",
       stocksAmount: 0,
       stocksPrice: 0,
     }
     this.handleChange = this.handleChange.bind(this);
   }
-  
-  callAPI() {
-    fetch("http://localhost:9000/testAPI")
-        .then(res => res.text())
-        .then(res => this.setState({ apiResponse: res }));
-  }
-  
-  componentWillMount() {
-    this.callAPI();
-  }
+
 
   handleChange(event){
     this.setState({
       stocksAmount: event.target.value,
-      stocksPrice: event.target.value * this.defaultValue,
+      stocksPrice: event.target.value * this.props.price,
     })
   }
   
+  requestOptions = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+  };
+
+  buyStock(stockName){
+    this.requestOptions.body = JSON.stringify({
+      stockName: stockName,
+      stockBuyAmount: this.state.stocksAmount,
+    });
+    fetch('https://localhost:9000/buy', this.requestOptions);
+    debugger;
+  }
+
+  sellStock(stockName){
+    this.requestOptions.body = JSON.stringify({
+      stockName: stockName,
+      stockSellAmount: this.state.stocksAmount,
+    });
+    fetch('https://localhost:9000/sell', this.requestOptions);
+  }
+
   render() {
+    const name = this.props.stockName;
     return (
       <div className="App">
         <Card>
             <Card.Body>
-                {/* 
-                <form onSubmit={}> 
-                //TODO: create function to update myStocks values on backend
-                */}
-                <form>
+                <form onSubmit={() => {this.props.sellMode ? this.sellStock(name) : this.buyStock(name)}}>
                     <Row>
                       <Container xl={8}>
-                        <label>
+                        <label style={{color: 'black'}}>
                             <input type={Number} value={this.state.stocksAmount} onChange={this.handleChange}/>
-                            = AR$ {this.state.stocksPrice}
+                            <p>= AR$ {this.state.stocksPrice}</p>
                         </label>
                       </Container>
                       <Container xl={4}>
